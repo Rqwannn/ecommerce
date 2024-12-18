@@ -132,19 +132,22 @@ export default function ShoppingCart() {
         cancelButtonColor: "#d33",
         confirmButtonText: "Yes, add it!",
         cancelButtonText: "Cancel",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          if (selectedCartItems.length > 0) {
+            localStorage.setItem("cartSession", JSON.stringify(selectedCartItems));
+            router.push("/payment");
+            console.log("Selected items saved to localStorage:", selectedCartItems);
+          } else {
+            Swal.fire({
+              icon: "warning",
+              title: "Oops...",
+              text: "No matching items found",
+            });
+          }          
+        }
       });
 
-      if (selectedCartItems.length > 0) {
-        localStorage.setItem("cartSession", JSON.stringify(selectedCartItems));
-        router.push("/payment");
-        console.log("Selected items saved to localStorage:", selectedCartItems);
-      } else {
-        Swal.fire({
-          icon: "warning",
-          title: "Oops...",
-          text: "No matching items found",
-        });
-      }
     } catch (error) {
       Swal.fire("Failed", "Failed to remove the item from the cart.", "error");
     }
