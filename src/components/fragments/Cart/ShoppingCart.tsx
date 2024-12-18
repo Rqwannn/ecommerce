@@ -81,13 +81,16 @@ export default function ShoppingCart() {
         cancelButtonColor: "#d33",
         confirmButtonText: "Yes, remove it!",
         cancelButtonText: "Cancel",
+      }).then((result) => {
+        
+        if (result.isConfirmed) {
+          removeCartItem(id);
+          setCartItems(cartItems.filter((item) => item.cart_id !== id));
+          Swal.fire("Success", "Item has been removed from the cart.", "success");
+        }
+
       });
 
-      if (result.isConfirmed) {
-        await removeCartItem(id);
-        setCartItems(cartItems.filter((item) => item.cart_id !== id));
-        Swal.fire("Success", "Item has been removed from the cart.", "success");
-      }
     } catch (error) {
       Swal.fire("Failed", "Failed to remove the item from the cart.", "error");
     }
